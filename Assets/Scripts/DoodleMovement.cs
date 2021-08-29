@@ -58,6 +58,10 @@ public class DoodleMovement : MonoBehaviour
         {
             doodle.GetComponent<RectTransform>().anchoredPosition = new Vector3(widthBg / 2 + doodle.GetComponent<RectTransform>().sizeDelta.x / 2, doodle.GetComponent<RectTransform>().anchoredPosition.y, 0);
         }
+        if (doodle.GetComponent<RectTransform>().anchoredPosition.y < 0)
+        {
+            Destroy(this);
+        }
 
     }
     void OnCollisionEnter2D(Collision2D coll)
@@ -83,7 +87,6 @@ public class DoodleMovement : MonoBehaviour
             Move();
         }
         Jump();
-
         CheckPosition();
     }
 }
