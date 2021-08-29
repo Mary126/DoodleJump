@@ -13,8 +13,9 @@ public class DoodleMovement : MonoBehaviour
     public Canvas canvas;
     private bool moving = true;
     private float t = 0.0f;
-    private AudioSource audioData;
+    public AudioSource jumpSound;
     public GameObject Background;
+    public bool loose = false;
     //public Camera doodleCamera;
     void Move()
     {
@@ -43,7 +44,6 @@ public class DoodleMovement : MonoBehaviour
             t += Time.deltaTime;
             if (t > 1.0f)
             {
-                //moving = false;
                 t = 0.0f;
             }
         }
@@ -64,11 +64,10 @@ public class DoodleMovement : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         // If the Collider2D component is enabled on the collided object
-        if (coll.collider == true)
+        if (coll.collider && doodle.GetComponent<Rigidbody2D>().velocity.y < 0.01f)
         {
             isGrounded = true;
-            audioData = GetComponent<AudioSource>();
-            audioData.Play(0);
+            jumpSound.Play(0);
         }
     }
     // Start is called before the first frame update
@@ -80,7 +79,14 @@ public class DoodleMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A)) {
+        if (Input.GetKey(KeyCode.D))
+        {
+            doodle.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            Move();
+        }
+            if (Input.GetKey(KeyCode.A))
+        {
+            doodle.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
             Move();
         }
         Jump();

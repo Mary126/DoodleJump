@@ -10,14 +10,18 @@ public class MoveBackground : MonoBehaviour
     public GameObject background;
     void MoveBg()
     {
-        if (!script.isGrounded && doodle)
+        if (script && !script.isGrounded && !script.loose)
         {
             background.GetComponent<RectTransform>().anchoredPosition = new Vector2(background.GetComponent<RectTransform>().anchoredPosition.x, doodle.GetComponent<RectTransform>().anchoredPosition.y);
         }
     }
     void Start()
     {
-        script = doodle.GetComponent<DoodleMovement>();
+        if (doodle)
+        {
+            script = doodle.GetComponent<DoodleMovement>();
+        }
+        
     }
 
     // Update is called once per frame
