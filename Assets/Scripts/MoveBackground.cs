@@ -7,13 +7,12 @@ public class MoveBackground : MonoBehaviour
 {
     public GameObject doodle;
     private DoodleMovement script;
-    public Image background;
-    // Start is called before the first frame update
+    public GameObject background;
     void MoveBg()
     {
         if (!script.isGrounded && doodle)
         {
-            background.GetComponent<RectTransform>().anchoredPosition = new Vector3(background.GetComponent<RectTransform>().anchoredPosition.x, doodle.GetComponent<RectTransform>().anchoredPosition.y, 0);
+            background.GetComponent<RectTransform>().anchoredPosition = new Vector2(background.GetComponent<RectTransform>().anchoredPosition.x, doodle.GetComponent<RectTransform>().anchoredPosition.y);
         }
     }
     void Start()

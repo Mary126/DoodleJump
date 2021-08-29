@@ -15,14 +15,4 @@ public class PlatformCollider : MonoBehaviour
             generator.PlatformsMove();
         }
     }
-    void Awake()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

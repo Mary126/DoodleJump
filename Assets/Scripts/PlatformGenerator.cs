@@ -8,7 +8,6 @@ public class PlatformGenerator : MonoBehaviour
 {
     public GameObject platform;
     public List<GameObject> platforms;
-    public GameObject[] pl;
     public int numOfPlatforms = 10;
     public GameObject board;
     public GameObject doodle;
@@ -35,8 +34,8 @@ public class PlatformGenerator : MonoBehaviour
         i.GetComponent<RectTransform>().anchoredPosition = new Vector3(i.GetComponent<RectTransform>().anchoredPosition.x, 1080 * number, 0);
         number += 1;
         i.transform.localScale = new Vector3(1f, 1f, 1f);
+        i.name = "Bg" + number;
         background = i;
-        
     }
     public void GeneratePlatform(Image bg)
     {
