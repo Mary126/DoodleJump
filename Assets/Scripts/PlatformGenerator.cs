@@ -13,19 +13,20 @@ public class PlatformGenerator : MonoBehaviour
     public GameObject board;
     public GameObject doodle;
     public Image background;
-    private int number = 1;
+    private int number = 0;
     // Start is called before the first frame update
     public void PlatformsMove()
     {
-        if (doodle.GetComponent<RectTransform>().anchoredPosition.y >= background.GetComponent<RectTransform>().anchoredPosition.y)
+        if (doodle.GetComponent<RectTransform>().anchoredPosition.y > background.GetComponent<RectTransform>().anchoredPosition.y + 100)
         {
-            for (int j = 0; j < platforms.Count; j++)
-            {
-                platforms[j].GetComponent<RectTransform>().anchoredPosition = new Vector3(platforms[j].GetComponent<RectTransform>().anchoredPosition.x, platforms[j].GetComponent<RectTransform>().anchoredPosition.y - platforms[j].GetComponent<RectTransform>().sizeDelta.x);
-            }
-            GenerateBackground();
-            GeneratePlatforms(background);
+            Generate();
         }
+    }
+    public void DeletePlatform(GameObject p)
+    {
+        Debug.Log("delete");
+        platforms.Remove(p);
+        Destroy(p);
     }
     public void GenerateBackground()
     {
@@ -35,31 +36,50 @@ public class PlatformGenerator : MonoBehaviour
         number += 1;
         i.transform.localScale = new Vector3(1f, 1f, 1f);
         background = i;
+        
     }
-    public void GeneratePlatforms(Image bg)
+    public void GeneratePlatform(Image bg)
     {
+        GameObject p = Instantiate(platform);
+        p.transform.SetParent(board.transform);
+        float y = bg.GetComponent<RectTransform>().anchoredPosition.y;
+        p.GetComponent<RectTransform>().anchoredPosition = new Vector3(Random.Range(-300f, 300f), Random.Range(y, y + 1060), 0);
+        p.transform.localScale = new Vector3(1f, 1f, 1f);
+        p.GetComponent<PlatformCollider>().generator = this;
+        platforms.Add(p);
+
+    }
+    void Generate()
+    {
+        GenerateBackground();
         for (int i = 0; i < numOfPlatforms; i++)
         {
-            GameObject p = Instantiate(platform);
-            p.transform.SetParent(board.transform);
-            float y = bg.GetComponent<RectTransform>().anchoredPosition.y;
-            p.GetComponent<RectTransform>().anchoredPosition = new Vector3(Random.Range(-300f, 300f), Random.Range(y+10, 1080 * number), 0);
-            p.transform.localScale = new Vector3(1f, 1f, 1f);
-            p.GetComponent<PlatformCollider>().index = i;
-            p.GetComponent<PlatformCollider>().generator = this;
-            platforms.Add(p);
+            GeneratePlatform(background);
         }
     }
     void Awake()
     {
-        GeneratePlatforms(background);
         GenerateBackground();
-        GeneratePlatforms(background);
+        for (int i = 0; i < numOfPlatforms; i++)
+        {
+            GeneratePlatform(background);
+        }
+        GenerateBackground();
+        for (int i = 0; i < numOfPlatforms; i++)
+        {
+            GeneratePlatform(background);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        for (int i = 0; i < platforms.Count; i++)
+        {
+            if (doodle && platforms[i].GetComponent<RectTransform>().anchoredPosition.y < doodle.GetComponent<RectTransform>().anchoredPosition.y - 540)
+            {
+                DeletePlatform(platforms[i]);
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ public class DoodleMovement : MonoBehaviour
     private bool moving = true;
     private float t = 0.0f;
     private AudioSource audioData;
+    //public Image Background;
     //public Camera doodleCamera;
     void Move()
     {
@@ -60,7 +61,7 @@ public class DoodleMovement : MonoBehaviour
         }
         if (doodle.GetComponent<RectTransform>().anchoredPosition.y < 0)
         {
-            Destroy(this);
+            Destroy(doodle);
         }
 
     }

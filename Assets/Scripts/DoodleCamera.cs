@@ -10,7 +10,7 @@ public class DoodleCamera : MonoBehaviour
     // Start is called before the first frame update
     void MoveCamera()
     {
-        if (!script.isGrounded)
+        if (!script.isGrounded && doodle)
         {
             gameCamera.GetComponent<RectTransform>().anchoredPosition = new Vector3(gameCamera.GetComponent<RectTransform>().anchoredPosition.x, doodle.GetComponent<RectTransform>().anchoredPosition.y, 0);
         } 

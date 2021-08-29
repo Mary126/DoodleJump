@@ -11,7 +11,7 @@ public class MoveBackground : MonoBehaviour
     // Start is called before the first frame update
     void MoveBg()
     {
-        if (!script.isGrounded)
+        if (!script.isGrounded && doodle)
         {
             background.GetComponent<RectTransform>().anchoredPosition = new Vector3(background.GetComponent<RectTransform>().anchoredPosition.x, doodle.GetComponent<RectTransform>().anchoredPosition.y, 0);
         }
