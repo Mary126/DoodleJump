@@ -1361,10 +1361,10 @@ MonoBehaviour:
 
     Move Left - A
 
-    Shoot - Space
+    Shoot - Left Mouse Click
 
-    Avoid monsters
-    and try not to fall!'
+    Avoid
+    monsters and try not to fall!'
 --- !u!222 &1820014243
 CanvasRenderer:
   m_ObjectHideFlags: 0

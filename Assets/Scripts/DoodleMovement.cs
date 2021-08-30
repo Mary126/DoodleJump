@@ -91,7 +91,7 @@ public class DoodleMovement : MonoBehaviour
             doodle.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
             Move();
         }
-        if (Input.GetKey(KeyCode.Space) && !spaceCheck)
+        if (Input.GetKey(KeyCode.Mouse0) && !spaceCheck)
         {
             GameObject gameObj = Instantiate(projectile);
             gameObj.transform.SetParent(board.transform);
@@ -103,7 +103,7 @@ public class DoodleMovement : MonoBehaviour
             spaceCheck = true;
             gameObj.GetComponent<MoveForward>().Shoot();
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             spaceCheck = false;
         }
