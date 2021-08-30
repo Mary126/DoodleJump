@@ -97,8 +97,9 @@ public class DoodleMovement : MonoBehaviour
             gameObj.transform.SetParent(board.transform);
             gameObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(doodle.GetComponent<RectTransform>().anchoredPosition.x, doodle.GetComponent<RectTransform>().anchoredPosition.y);
             gameObj.transform.localScale = new Vector3(1f, 1f, 1f);
-            gameObj.GetComponent<MoveForward>().progectile = gameObj;
+            gameObj.GetComponent<MoveForward>().projectile = gameObj;
             gameObj.GetComponent<MoveForward>().shootingSound = shootingSound;
+            gameObj.name = "Projectile";
             spaceCheck = true;
             gameObj.GetComponent<MoveForward>().Shoot();
         }

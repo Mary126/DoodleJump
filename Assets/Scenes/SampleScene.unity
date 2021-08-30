@@ -1565,6 +1565,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 636438325}
     - target: {fileID: 2750147786253266482, guid: 42484e604844a0241bb3162be5efbb79, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 3884193169284253881, guid: e1f598f4fee04204dacb1be2bf611f9b, type: 3}
+    - target: {fileID: 2750147786253266482, guid: 42484e604844a0241bb3162be5efbb79, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 142456785}
+    - target: {fileID: 2750147786253266482, guid: 42484e604844a0241bb3162be5efbb79, type: 3}
       propertyPath: doodle
       value: 
       objectReference: {fileID: 1769200592}

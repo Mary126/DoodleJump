@@ -11,16 +11,19 @@ public class GameManager : MonoBehaviour
     public GameObject board;
     public GameObject doodle;
     public GameObject background;
+    public GameObject enemy;
+    public Canvas canvas;
     public List<GameObject> backgrounds;
     public GameObject gameOver;
     public AudioSource looseSound;
     private bool check = true;
+    private int possibl = 40;
 
     private int count = 0;
 
     public void PlatformsMove()
     {
-        if (doodle.GetComponent<RectTransform>().anchoredPosition.y > backgrounds[backgrounds.Count-1].GetComponent<RectTransform>().anchoredPosition.y + 100)
+        if (doodle.GetComponent<RectTransform>().anchoredPosition.y > backgrounds[backgrounds.Count - 1].GetComponent<RectTransform>().anchoredPosition.y + 100)
         {
             Generate();
         }
@@ -56,7 +59,7 @@ public class GameManager : MonoBehaviour
         if (i > 0)
         {
             float previousBackground = bg.GetComponent<RectTransform>().anchoredPosition.y;
-            rangeY = Random.Range(previousBackground + backgroundSize / numOfPlatforms * i + 20, previousBackground + backgroundSize / numOfPlatforms * (i+1) - 20);
+            rangeY = Random.Range(previousBackground + backgroundSize / numOfPlatforms * i + 20, previousBackground + backgroundSize / numOfPlatforms * (i + 1) - 20);
         }
         p.GetComponent<RectTransform>().anchoredPosition = new Vector3(rangeX, rangeY, 0);
         p.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -64,12 +67,26 @@ public class GameManager : MonoBehaviour
         platforms.Add(p);
 
     }
+    void GenerateEnemy(GameObject plat)
+    {
+        GameObject p = Instantiate(enemy);
+        p.transform.SetParent(canvas.transform);
+        p.GetComponent<RectTransform>().anchoredPosition = new Vector2(plat.GetComponent<RectTransform>().anchoredPosition.x, plat.GetComponent<RectTransform>().anchoredPosition.y + 50);
+        p.transform.localScale = new Vector3(1f, 1f, 1f);
+        p.GetComponent<EnemyControll>().enemy = p;
+        p.GetComponent<EnemyControll>().doodle = doodle;
+    }
     void Generate()
     {
         GenerateBackground();
         for (int i = 0; i < numOfPlatforms; i++)
         {
-            GeneratePlatform(backgrounds[backgrounds.Count-1], i);
+            GeneratePlatform(backgrounds[backgrounds.Count - 1], i);
+        }
+        float possibility = Random.Range(1, possibl);
+        if (possibility / possibl > 0.8)
+        {
+            GenerateEnemy(platforms[platforms.Count - Random.Range(1, 5)]);
         }
         count++;
         if (count == 6)
@@ -78,6 +95,7 @@ public class GameManager : MonoBehaviour
             {
                 numOfPlatforms -= 2;
             }
+            possibility -= 10;
         }
         else if (count == 12)
         {
@@ -85,6 +103,7 @@ public class GameManager : MonoBehaviour
             {
                 numOfPlatforms -= 3;
             }
+            possibility -= 10;
         }
     }
     void Awake()
@@ -96,10 +115,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (doodle && check && doodle.GetComponent<RectTransform>().anchoredPosition.y <= platforms[0].GetComponent<RectTransform>().anchoredPosition.y - 20)
         {
-            Debug.Log("das");
             looseSound.Play(0);
             GameObject gameOverObj = Instantiate(gameOver);
             gameOverObj.transform.SetParent(board.transform);
@@ -118,6 +135,7 @@ public class GameManager : MonoBehaviour
         if (doodle && platforms[0].GetComponent<RectTransform>().anchoredPosition.y < doodle.GetComponent<RectTransform>().anchoredPosition.y - 540)
         {
             DeletePlatform(platforms[0]);
+
         }
         if (backgrounds.Count > 3)
         {
