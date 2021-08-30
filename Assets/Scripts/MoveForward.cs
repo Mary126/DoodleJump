@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class MoveForward : MonoBehaviour
 {
+    public GameObject doodle;
     public float speed = 9.0f;
-    public GameObject projectile;
+    private Vector2 directionVector;
+    public GameObject progectile;
+    public AudioSource shootingSound;
     // Start is called before the first frame update
-    void Start()
+    public void Shoot()
     {
-        
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0;
+        Debug.Log(mousePosition);
+        directionVector = (mousePosition - transform.position).normalized;
+        shootingSound.Play(0);
     }
-
     // Update is called once per frame
     void Update()
     {
-
-        //projectile.transform = new Vector3()
+        transform.Translate(directionVector * speed * Time.deltaTime);
+        if (GetComponent<RectTransform>().anchoredPosition.x < -330 || GetComponent<RectTransform>().anchoredPosition.x > 330)
+        {
+            Destroy(this);
+        }
     }
 }

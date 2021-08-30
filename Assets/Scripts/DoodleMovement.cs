@@ -14,9 +14,13 @@ public class DoodleMovement : MonoBehaviour
     private bool moving = true;
     private float t = 0.0f;
     public AudioSource jumpSound;
-    public GameObject Background;
     public bool loose = false;
-    //public Camera doodleCamera;
+    public Text score;
+    private bool spaceCheck = false;
+    public GameObject projectile;
+    public GameObject board;
+    public AudioSource shootingSound;
+
     void Move()
     {
         float x = Input.GetAxisRaw("Horizontal");
@@ -36,6 +40,7 @@ public class DoodleMovement : MonoBehaviour
             isGrounded = false;
             moving = false;
             t = 0.0f;
+            score.text = "GameScore: " + ((int)doodle.GetComponent<RectTransform>().anchoredPosition.y).ToString();
         }
         if (moving)
         {
@@ -51,13 +56,15 @@ public class DoodleMovement : MonoBehaviour
 
     void CheckPosition()
     {
-        if (doodle.GetComponent<RectTransform>().anchoredPosition.x > widthBg / 2 + doodle.GetComponent<RectTransform>().sizeDelta.x / 2 + 0.5)
+        float x = doodle.GetComponent<RectTransform>().anchoredPosition.x;
+        float y = doodle.GetComponent<RectTransform>().anchoredPosition.y;
+        if (x > widthBg / 2 + doodle.GetComponent<RectTransform>().sizeDelta.x + 0.5)
         {
-            doodle.GetComponent<RectTransform>().anchoredPosition = new Vector3(-widthBg / 2 - doodle.GetComponent<RectTransform>().sizeDelta.x / 2, doodle.GetComponent<RectTransform>().anchoredPosition.y, 0);
+            doodle.GetComponent<RectTransform>().anchoredPosition = new Vector3(-widthBg / 2 - doodle.GetComponent<RectTransform>().sizeDelta.x / 2, y, 0);
         }
-        if (doodle.GetComponent<RectTransform>().anchoredPosition.x < -widthBg / 2 - doodle.GetComponent<RectTransform>().sizeDelta.x / 2)
+        if (x < -widthBg / 2 - doodle.GetComponent<RectTransform>().sizeDelta.x / 2)
         {
-            doodle.GetComponent<RectTransform>().anchoredPosition = new Vector3(widthBg / 2 + doodle.GetComponent<RectTransform>().sizeDelta.x / 2, doodle.GetComponent<RectTransform>().anchoredPosition.y, 0);
+            doodle.GetComponent<RectTransform>().anchoredPosition = new Vector3(widthBg / 2 + doodle.GetComponent<RectTransform>().sizeDelta.x / 2, y, 0);
         }
 
     }
@@ -70,11 +77,6 @@ public class DoodleMovement : MonoBehaviour
             jumpSound.Play(0);
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        //Input.gyro.enabled = true;
-    }
 
     // Update is called once per frame
     void Update()
@@ -84,10 +86,25 @@ public class DoodleMovement : MonoBehaviour
             doodle.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             Move();
         }
-            if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             doodle.GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
             Move();
+        }
+        if (Input.GetKey(KeyCode.Space) && !spaceCheck)
+        {
+            GameObject gameObj = Instantiate(projectile);
+            gameObj.transform.SetParent(board.transform);
+            gameObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(doodle.GetComponent<RectTransform>().anchoredPosition.x, doodle.GetComponent<RectTransform>().anchoredPosition.y);
+            gameObj.transform.localScale = new Vector3(1f, 1f, 1f);
+            gameObj.GetComponent<MoveForward>().progectile = gameObj;
+            gameObj.GetComponent<MoveForward>().shootingSound = shootingSound;
+            spaceCheck = true;
+            gameObj.GetComponent<MoveForward>().Shoot();
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            spaceCheck = false;
         }
         Jump();
         CheckPosition();

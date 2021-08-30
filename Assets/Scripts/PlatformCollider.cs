@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlatformCollider : MonoBehaviour
 {
-    public PlatformGenerator generator;
+    public GameManager manager;
     public int index = 0;
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -12,7 +12,7 @@ public class PlatformCollider : MonoBehaviour
         // If the Collider2D component is enabled on the collided object
         if (coll.collider == true)
         {
-            generator.PlatformsMove();
+            manager.PlatformsMove();
         }
     }
 }
