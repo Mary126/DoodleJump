@@ -9,6 +9,7 @@ public class EnemyControll : MonoBehaviour
     public AudioSource crash;
     public AudioSource monsterSound;
     public AudioSource mosterHit;
+    public GameObject stars;
 
     private bool down = true;
 
@@ -17,11 +18,18 @@ public class EnemyControll : MonoBehaviour
         Debug.Log(coll.collider.gameObject.name);
         if (coll.collider.gameObject.name == "Player")
         {
-            doodle.GetComponent<Collider2D>().enabled = false;
+            //Destroy Player colliders and create a stars image on the head of the doodle
+            coll.collider.gameObject.GetComponent<Collider2D>().enabled = false;
+            coll.collider.gameObject.GetComponent<DoodleMovement>().colliderLegs.GetComponent<Collider2D>().enabled = false;
+            GameObject gameObj = Instantiate(stars);
+            gameObj.transform.SetParent(doodle.transform);
+            gameObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-20f, 86.0f);
+            gameObj.transform.localScale = new Vector3(1f, 1f, 1f);
             crash.Play(0);
         }
         if (coll.collider.gameObject.name == "Projectile")
         {
+            //if Projectile hits the Enemy
             mosterHit.Play(0);
             Destroy(enemy);
             Destroy(coll.collider.gameObject);
@@ -32,7 +40,7 @@ public class EnemyControll : MonoBehaviour
     {
         monsterSound.Play(0);
         monsterSound.loop = true;
-        InvokeRepeating("Move", 0.5f, 0.3f);
+        InvokeRepeating("Move", 0.5f, 0.3f); //repeate Move() every 0.5 seconds
     }
 
     void Move()

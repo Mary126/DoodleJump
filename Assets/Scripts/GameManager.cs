@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
             GeneratePlatform(backgrounds[backgrounds.Count - 1], i);
         }
         float possibility = Random.Range(1, possibl);
-        if (possibility / possibl > 0.8)
+        if (possibility / possibl > 0.7)
         {
             GenerateEnemy(platforms[platforms.Count - Random.Range(1, 5)]);
         }

@@ -12,7 +12,7 @@ public class DoodleMovement : MonoBehaviour
     public bool isGrounded = false;
     public Canvas canvas;
     private bool moving = true;
-    private float t = 0.0f;
+    public float t = 0.0f;
     public AudioSource jumpSound;
     public bool loose = false;
     public Text score;
@@ -20,7 +20,7 @@ public class DoodleMovement : MonoBehaviour
     public GameObject projectile;
     public GameObject board;
     public AudioSource shootingSound;
-
+    public GameObject colliderLegs;
     void Move()
     {
         float x = Input.GetAxisRaw("Horizontal");

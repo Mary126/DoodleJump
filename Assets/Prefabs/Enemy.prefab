@@ -230,6 +230,7 @@ MonoBehaviour:
   crash: {fileID: 3884193170056872911}
   monsterSound: {fileID: 5183551866050455454}
   mosterHit: {fileID: 8216869452623925426}
+  stars: {fileID: 9012402453534685133, guid: 06d950ef953e12b4a917aafb8fb2da12, type: 3}
 --- !u!61 &3884193169284253883
 BoxCollider2D:
   m_ObjectHideFlags: 0
